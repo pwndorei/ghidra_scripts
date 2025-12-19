@@ -17,13 +17,13 @@ def getPseudocode(prog, func):
     prog_api = FlatProgramAPI(prog)
     decomp_api = FlatDecompilerAPI(prog_api)
     
-    if isinstance(func, unicode):
+    if isinstance(func, str):
         funcName = func
         func = prog_api.getFunction(funcName)
         if func == None:
             raise Exception("Function {} not found".format(funcName))
 
-    print "Decompile {}".format(func.getName())
+    print("Decompile {}".format(func.getName()))
 
     return decomp_api.decompile(func)
     
@@ -32,12 +32,14 @@ try:
     sourceProgram = currentProgram
     sourceFunc = getFunctionContaining(currentAddress)
 
-    sourcePseudocode = getPseudocode(sourceProgram, sourceFunc).split(u'\r\n')
+    sourcePseudocode = getPseudocode(sourceProgram, sourceFunc).split('\n')
+    print(sourcePseudocode)
 
     destProgram = askProgram("Program to diff")
     destFuncName = askString("Function to Diff", "", sourceFunc.getName())
     
-    destPseudocode = getPseudocode(destProgram, destFuncName).split(u'\r\n')
+    destPseudocode = getPseudocode(destProgram, destFuncName).split('\n')
+    print(destPseudocode)
 
     diff_html = askFile("Choose Path", "Save")
 
@@ -50,4 +52,4 @@ try:
 
 
 except Exception as e:
-    print str(e)
+    print(str(e))
